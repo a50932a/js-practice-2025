@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 2：簡單計數器</title>
+</head>
+
+<body>
+    <button id="countAdd">+1</button>
+    <button id="countless">-1</button>
+    <p id="countNumber"></p>
+</body>
+<script>
+    const addBtn = document.getElementById('countAdd');
+    const lessBtn = document.getElementById('countless');
+    let countNumber = document.getElementById('countNumber');
+    let finalNumber = 0;
+
+    addBtn.addEventListener('click', function () {
+        finalNumber++;
+        countNumber.textContent = finalNumber;
+    })
+
+    lessBtn.addEventListener('click', function () {
+        if (finalNumber > 0) { // 防止變成負數
+            finalNumber--;
+            countNumber.textContent = finalNumber;
+        }
+    })
+</script>
+
+</html>
