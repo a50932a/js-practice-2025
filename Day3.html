@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 3：改變背景顏色</title>
+</head>
+
+<body>
+    <button id="changeBG">改變背景</button>
+</body>
+<script>
+    const changeBG = document.getElementById('changeBG');
+    const bgColor = document.querySelector('html');
+
+    changeBG.addEventListener('click', function () {
+        function randomColor() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+        bgColor.style.backgroundColor = randomColor();
+    })
+
+</script>
+
+</html>
