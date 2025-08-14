@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1：按鈕點擊顯示文字</title>
+</head>
+
+<body>
+    <button id="hitMe">按下我</button>
+    <button id="hitMeClear">按下我</button>
+    <p id="message"></p>
+</body>
+<script>
+    const textBtn = document.getElementById('hitMe');
+    const textSpace = document.getElementById('message');
+    const textClear = document.getElementById('hitMeClear');
+
+    textBtn.addEventListener('click', function () {
+        textSpace.textContent = 'Hello, JavaScript!';
+    })
+
+    textClear.addEventListener('click', function () {
+        textSpace.textContent = '';
+    })
+</script>
+
+</html>
