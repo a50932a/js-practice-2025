@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 4：Todo List (超簡版)</title>
+    <style>
+
+    </style>
+</head>
+
+<input type="text" id="Todocontent">
+<button id="addBtn">新增</button>
+<button id="deletBtn">刪除</button>
+<ul id="Todolist">
+</ul>
+<button id="deletAllBtn">全部清除</button>
+</body>
+<script>
+    let TodoBtn = document.getElementById('Todocontent');
+    let addBtn = document.getElementById('addBtn');
+    let ToDoList = document.getElementById('Todolist');
+    let deletBtn = document.getElementById('deletAllBtn');
+
+    addBtn.addEventListener('click', function () {
+        const text = TodoBtn.value.trim();
+        if (text === '') return; //空值不新增
+
+        let str = document.createElement("li")
+        str.textContent = TodoBtn.value;
+        ToDoList.appendChild(str);
+    })
+
+    deletBtn.addEventListener('click', function () {
+        if (ToDoList.hasChildNodes()) {
+            ToDoList.removeChild(ToDoList.children[0])
+        }
+    })
+    deletAllBtn.addEventListener('click', function () {
+        while (ToDoList.hasChildNodes()) {
+            ToDoList.removeChild(ToDoList.firstChild);
+        }
+    })
+</script>
+
+</html>
