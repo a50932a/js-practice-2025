@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 5：猜數字遊戲（1~10）</title>
+    <style>
+
+    </style>
+</head>
+
+<input type="text" id="randomInput">
+<button id="guessNumber">猜數字</button>
+<button id="resetGame">重新開始</button>
+<div id="answer"></div>
+
+</body>
+<script>
+    let randomInput = document.getElementById('randomInput');
+    let randomInputNumber = randomInput.value;
+    let answer = document.getElementById('answer');
+    let resetGame = document.getElementById('resetGame');
+    let randomNumber = Math.floor(Math.random() * 10) + 1;
+
+
+    guessNumber.addEventListener('click', function () {
+        let randomInputNumber = parseInt(randomInput.value, 10);
+        if (isNaN(randomInputNumber)) {
+            answer.innerHTML = '⚠️ 請輸入數字！';
+            return;
+        }
+
+        if (randomInputNumber === randomNumber) {
+            answer.innerHTML = '🎉 猜對了！答案是 ' + randomNumber;
+        } else if (randomInputNumber > randomNumber) {
+            answer.innerHTML = '太大了!';
+        } else if (randomInputNumber < randomNumber) {
+            answer.innerHTML = '太小了!';
+        }
+
+    });
+
+    resetGame.addEventListener('click', function () {
+        randomNumber = Math.floor(Math.random() * 10) + 1;
+        randomInput.value = '';
+        answer.innerHTML = '🔄 遊戲已經重新開始！';
+        console.log('新答案' + randomNumber)
+    })
+</script>
+
+</html>
