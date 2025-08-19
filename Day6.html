@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 6：九九乘法表（表格版）</title>
+    <style>
+
+    </style>
+</head>
+
+<table id="nineTable" border="1" cellspacing="0" cellpadding="5"></table>
+</body>
+<script>
+    let nineTable = document.getElementById('nineTable');
+    for (let i = 0; i <= 9; i++) {
+        let nineTr = document.createElement('tr');
+        for (j = 0; j <= 9; j++) {
+            let nineTd = document.createElement(i === 0 || j === 0 ? 'th' : 'td'); // 第一行/第一列用表頭 th
+            if (i === 0 && j === 0) {
+                nineTd.textContent = "x"; //左上角
+            } else if (i === 0) {
+                nineTd.textContent = j; //第一行：列標頭
+            } else if (j === 0) {
+                nineTd.textContent = i; //第一列：行標頭
+            } else {
+                nineTd.textContent = j * i; //中間：乘積
+            }
+            nineTr.appendChild(nineTd);
+        }
+        nineTable.appendChild(nineTr);
+    }
+</script>
+
+</html>
