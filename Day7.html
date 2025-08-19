@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 7：倒數計時器</title>
+    <style>
+
+    </style>
+</head>
+<input id="secInput" type="number" placeholder="輸入秒數">
+<button id="startBTN">開始</button>
+<div id="endNumber">剩餘時間：</div>
+</body>
+<script>
+    //這樣整體邏輯就是一個 按下按鈕 → 讀秒數 → 啟動計時器 → 每秒更新 → 歸零停止 的流程。
+    let startBTN = document.getElementById('startBTN');
+    let secInput = document.getElementById('secInput');
+    let endNumber = document.getElementById('endNumber');
+    let timerId = null; // 宣告在外面，方便 timer() 使用
+
+    function timer() {
+        secNumber--;// 每次執行時，秒數 -1
+        endNumber.textContent = '剩餘時間：' + secNumber; //把最新秒數顯示在畫面上
+        if (secNumber <= 0) {
+            clearInterval(timerId); //停止計時
+            alert('時間到！');//彈出提示
+        }
+    }
+    let secNumber; // 放目前倒數的秒數。
+
+    startBTN.addEventListener('click', function () {
+        clearInterval(timerId);// 先清掉之前的計時器，避免重複
+        secNumber = parseInt(secInput.value) || 0; // 從輸入框讀取數字 (如果不是數字就設 0)
+        endNumber.textContent = '剩餘時間：' + secNumber;// 初始化顯示
+        if (secNumber > 0) {
+            timerId = setInterval(timer, 1000);// 每 1 秒執行一次 timer()
+        }
+    })
+</script>
+
+</html>
