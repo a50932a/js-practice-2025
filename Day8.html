@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 8：打字測速器（可隨機切換文字）</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <p id="keybroadSpeedContent"></p>
+    <input id="keybroadSpeed" placeholder="開始輸入..." style="width:500px;">
+    <p>耗時：<span id="nowKeySpeed"></span>秒</p>
+    <p>每分鐘<span id="secTextNumber"></span>字</p>
+</body>
+<script>
+    const sentences = [
+        "如果我看得比其他人遠，是因為我站在巨人的肩膀上",
+        "動力讓你開始，系統讓你持續",
+        "如果不是非做不可，那就別做"
+    ]
+    const keybroadSpeedContent = document.getElementById('keybroadSpeedContent');
+    let keybroadSpeed = document.getElementById('keybroadSpeed');
+    let nowKeySpeed = document.getElementById('nowKeySpeed');
+    let secTextNumber = document.getElementById('secTextNumber');
+
+
+    function sentencesRandom() {//隨機顯示句子的函式
+        const randomIndex = Math.floor(Math.random() * sentences.length);
+        return sentences[randomIndex];
+    }
+    keybroadSpeedContent.textContent = sentencesRandom();
+
+    let startTime = null;//還沒開始
+
+    keybroadSpeed.addEventListener('input', function () {
+
+        if (!startTime) { //判斷!startTime是否ture，把現在的時間存進去
+            startTime = new Date();//startTime已經有值了，判斷為false，不再更新
+        }
+        //上方程式碼為：因為我們不想要每次打字都更新開始時間，只想要再第一次輸入的時候記錄就好。
+        if (keybroadSpeed.value === keybroadSpeedContent.textContent) {//該比較的是input裡面的"值"是否等於網頁上顯示要打的指定文字
+            let endTime = new Date();//呼叫new Date都會產生"此刻"的時間物件，所以產生打完字結束的時間。
+            let finalSpeed = (endTime.getTime() - startTime.getTime()) / 1000; //花費時間：結束時間-開始時間除以1000得到秒數
+            nowKeySpeed.textContent = finalSpeed.toFixed(2);// 保留小數點，並將秒數顯示於網頁上
+            let textLengthSpeed = keybroadSpeedContent.textContent.length / finalSpeed * 60;
+            secTextNumber.textContent = textLengthSpeed.toFixed(2);
+
+            //重置，方便下一次測試(重新再一句)
+            startTime = null;
+            keybroadSpeed.value = "";
+            keybroadSpeedContent.textContent = sentencesRandom();
+        }
+    })
+
+</script>
+
+</html>
