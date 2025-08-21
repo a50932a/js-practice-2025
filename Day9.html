@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 9：溫度轉換器（攝氏（℃）、華氏（℉））</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <p>請輸入您的溫度</p>
+    <input type="number" id="tempInput" placeholder="請輸入數字並選擇單位" style="width:300;">
+    <select id="tempUnitSelect">
+        <option value="1">華氏</option>
+        <option value="2">攝氏</option>
+    </select>
+    <button id="changeTemp">轉換</button>
+    <div>轉換結果：
+        <span id="tempUnitDisplay"></span>
+        <span id="tempResult"></span>
+    </div>
+</body>
+<script>
+    let tempInput = document.getElementById('tempInput');
+    let tempUnitSelect = document.getElementById('tempUnitSelect');
+
+    let changeTemp = document.getElementById('changeTemp');
+    let tempResult = document.getElementById('tempResult');
+    let tempUnitDisplay = document.getElementById('tempUnitDisplay');
+
+
+    changeTemp.addEventListener('click', function () {
+        let inputValue = parseFloat(tempInput.value);
+        let selectedUnit = tempUnitSelect.value;
+        let selectedName = tempUnitSelect.options[tempUnitSelect.selectedIndex].text;
+
+        if (selectedUnit === "1") {
+            let finalTemp = inputValue * 9 / 5 + 32;
+            console.log(finalTemp)
+            tempResult.textContent = finalTemp + '°F';
+            tempUnitDisplay.textContent = selectedName;
+        } else if (selectedUnit === "2") {
+            finalTemp = (inputValue - 32) * 5 / 9;
+            console.log(finalTemp)
+            tempResult.textContent = finalTemp + "°C";
+            tempUnitDisplay.textContent = selectedName;
+        }
+    })
+
+</script>
+
+</html>
