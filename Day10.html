@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 10：隨機密碼生成器</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <input type="number" id="passwordNumberInput">
+    <button id="ramdomPassword">產生隨機密碼</button>
+    <div>密碼為：
+        <span id="passwordResult"></span>
+    </div>
+</body>
+<script>
+    let passwordNumberInput = document.getElementById('passwordNumberInput');
+    let ramdomPassword = document.getElementById('ramdomPassword');
+    let passwordResult = document.getElementById('passwordResult');
+
+    ramdomPassword.addEventListener('click', function () {
+        let passLength = parseInt(passwordNumberInput.value);
+        let engLow = 'abcdefghijklmnopqrstuvwxyz';
+        let engUpper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let number = '0123456789';
+        let signPass = '!@#$%^&*()_+';
+
+        let mixPass = engLow + engUpper + number + signPass;
+        //將所有字元合併成一個字元池
+        let rusultSum = '';
+
+        for (i = 0; i < passLength; i++) {
+            let ramdomIndex = Math.floor(Math.random() * mixPass.length);
+            rusultSum += mixPass[ramdomIndex];
+            passwordResult.textContent = rusultSum;
+        };
+    });
+
+</script>
+
+</html>
