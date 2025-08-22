@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 11：日期顯示工具</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div>
+        今天的日期:<span id="todayDate"></span>
+    </div>
+</body>
+<script>
+    let todayDate = document.getElementById("todayDate")
+    let weekNames = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+    //由於目前代表時間是都是數字
+    //設定中文版星期一至日的陣列
+
+    function getTodayDateStr() {
+        const d = new Date()
+        let dateStr = d.toLocaleDateString('zh-TW');//設定抓取時間為台灣日期格式
+        let weekDayStr = weekNames[d.getDay()];
+        //getDay()回傳0～6數字，各自代表星期幾
+        //假設今天日期抓到是5則回傳5
+        //套用至weekNames[5]，所以會回傳對應的內容"星期五";
+        return dateStr + " " + weekDayStr;//回傳日期+中間隔空隔+星期幾
+    }
+    let lastDate = getTodayDateStr();//網頁抓取目前時間並存入lastDate
+    todayDate.textContent = lastDate;//網頁顯示剛剛抓的時間
+
+    setInterval(function () {
+        let currentDate = getTodayDateStr();
+        if (currentDate !== lastDate) { //假設正確時間不等於網頁上時間
+            lastDate = currentDate;//讓網頁時間變成正確時間
+            todayDate.textContent = currentDate;//網頁上更新成正確時間
+        }
+    }, 1000 * 60);//每60分鐘檢查一次
+</script>
+
+</html>
