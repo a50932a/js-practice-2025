@@ -4,42 +4,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 11：日期顯示工具</title>
+    <title>Day 12：圖片輪播</title>
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
 
+        .slideshow {
+            position: relative;
+            width: 400px;
+            max-width: 100%;
+        }
+
+        .slideshow img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .navBtn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 18px;
+        }
+
+        #prevBtn {
+            left: 10px;
+        }
+
+        #nextBtn {
+            right: 10px;
+        }
+
+        .navBtn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        #indicator {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 4px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .dot.active {
+            background-color: #333;
+        }
     </style>
 </head>
 
 <body>
-    <div>
-        今天的日期:<span id="todayDate"></span>
+    <div class="slideshow">
+        <!-- 圖片 -->
+        <img id="slideImage" src="" alt="輪播圖片">
+
+        <!-- 控制按鈕 -->
+        <button id="prevBtn" class="navBtn">❮</button>
+        <button id="nextBtn" class="navBtn">❯</button>
+
+        <!-- 指示器 -->
+        <div id="indicator">
+            <a class="dot active"></a>
+            <a class="dot"></a>
+            <a class="dot"></a>
+        </div>
     </div>
 </body>
 <script>
-    let todayDate = document.getElementById("todayDate")
-    let weekNames = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-    //由於目前代表時間是都是數字
-    //設定中文版星期一至日的陣列
+    let prevBtn = document.getElementById("prevBtn");
+    let nextBtn = document.getElementById("nextBtn");
+    let indicator = document.getElementById("indicator");
+    let slideImage = document.getElementById("slideImage");
+    let dots = document.querySelectorAll('.dot');
 
-    function getTodayDateStr() {
-        const d = new Date()
-        let dateStr = d.toLocaleDateString('zh-TW');//設定抓取時間為台灣日期格式
-        let weekDayStr = weekNames[d.getDay()];
-        //getDay()回傳0～6數字，各自代表星期幾
-        //假設今天日期抓到是5則回傳5
-        //套用至weekNames[5]，所以會回傳對應的內容"星期五";
-        return dateStr + " " + weekDayStr;//回傳日期+中間隔空隔+星期幾
+    let imageList = [
+        'https://images.pexels.com/photos/45170/kittens-cat-cat-puppy-rush-45170.jpeg',
+        'https://images.pexels.com/photos/1643456/pexels-photo-1643456.jpeg',
+        'https://images.pexels.com/photos/177809/pexels-photo-177809.jpeg'
+    ]
+    let currentIndex = 0;
+    slideImage.src = imageList[0];//預設第一張
+
+    nextBtn.addEventListener('click', function () {
+        let nextIndex = (currentIndex + 1) % imageList.length;
+        slideImage.src = imageList[currentIndex];
+        updateSlide(nextIndex);
+    })
+
+    prevBtn.addEventListener('click', function () {
+        let prevIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+        slideImage.src = imageList[currentIndex];
+        updateSlide(prevIndex);
+    })
+
+    function updateSlide(index) {
+        currentIndex = index;
+        slideImage.src = imageList[currentIndex];
+
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[currentIndex].classList.add('active');
+
     }
-    let lastDate = getTodayDateStr();//網頁抓取目前時間並存入lastDate
-    todayDate.textContent = lastDate;//網頁顯示剛剛抓的時間
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', function () {
+            updateSlide(index);
+        })
+    })
 
-    setInterval(function () {
-        let currentDate = getTodayDateStr();
-        if (currentDate !== lastDate) { //假設正確時間不等於網頁上時間
-            lastDate = currentDate;//讓網頁時間變成正確時間
-            todayDate.textContent = currentDate;//網頁上更新成正確時間
-        }
-    }, 1000 * 60);//每60分鐘檢查一次
+    let timeAuto = setInterval(function () {
+        let nextIndex = (currentIndex + 1) % imageList.length;
+        updateSlide(nextIndex)
+    }, 3000);
+    slideImage.addEventListener('mouseover', function () {
+        clearInterval(timeAuto);
+    })
+    slideImage.addEventListener('mouseout', function () {
+        let timeAuto = setInterval(function () {
+            let nextIndex = (currentIndex + 1) % imageList.length;
+            updateSlide(nextIndex)
+        }, 3000);
+    })
 </script>
 
 </html>
