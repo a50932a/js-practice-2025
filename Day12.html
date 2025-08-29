@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 12：迷你記事簿</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        #noteInput {
+            padding: 8px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #addNoteBtn {
+            padding: 8px 12px;
+            margin-left: 5px;
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #addNoteBtn:hover {
+            background-color: #45a049;
+        }
+
+        #noteList {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        #noteList li {
+            background: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .deleteBtn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .deleteBtn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>迷你記事簿</h2>
+
+    <!-- 輸入區域 -->
+    <div>
+        <input type="text" id="noteInput" placeholder="請輸入記事...">
+        <button id="addNoteBtn">新增</button>
+    </div>
+
+    <!-- 顯示記事的區域 -->
+    <ul id="noteList">
+        <!-- 這裡會放新增的記事 -->
+    </ul>
+</body>
+<script>
+    let noteInput = document.getElementById("noteInput");
+    let addNoteBtn = document.getElementById("addNoteBtn");
+    let noteList = document.getElementById("noteList");
+
+    //先從localStorage拿資料
+    let notes = JSON.parse(localStorage.getItem('notes')) || [];
+
+    function addNoteToList(noteText) {
+        let str = document.createElement('li');
+        str.textContent = noteText;
+
+        let deleteBtn = document.createElement('button')
+        deleteBtn.textContent = '刪除'
+        deleteBtn.classList.add('deleteBtn')
+        str.appendChild(deleteBtn)
+        noteList.appendChild(str);
+
+        deleteBtn.addEventListener('click', function () {
+            noteList.removeChild(str); //移除畫面中的li
+            //同步更新localStorage
+            notes = notes.filter(n => n !== noteText);
+            localStorage.setItem("notes", JSON.stringify(notes));
+        })
+    }
+
+    //把資料顯示在頁面上
+    notes.forEach(note => {
+        addNoteToList(note);
+    });
+
+    addNoteBtn.addEventListener('click', function () {
+
+        let noteText = noteInput.value.trim();
+        if (noteText === "") return;//空字串不存入localstorage
+
+        notes.push(noteText);//存到陣列
+        localStorage.setItem("notes", JSON.stringify(notes));//存到localStorage
+
+        addNoteToList(noteText);
+
+        noteInput.value = ""; //輸入後清空
+
+    })
+
+
+
+
+</script>
+
+</html>
